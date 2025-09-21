@@ -1,11 +1,13 @@
-import './App.css';
+import React from 'react'
+import Body from "./components/Body";
 
-function App() {
+const App = () => {
   return (
-    <h1 className="text-4xl font-medium text-green-200">
-      Hello Netflix GPT 🚀
-    </h1>
-  );
+    <div>
+      <Body />
+
+    </div>
+  )
 }
 
-export default App;
+export default App
