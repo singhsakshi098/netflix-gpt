@@ -1,28 +1,59 @@
 import React, { useState , useRef } from "react";
 import Header from "./Header";
 import  { checkValidData } from"../utils/Validate";
+import { createUserWithEmailAndPassword ,signInWithEmailAndPassword  } from "firebase/auth";
+import { auth } from "../utils/firebase";
 
 const Login = () => {
         const [isSignInForm , setIsSignInForm] = useState(true);
         const [errorMessage , setErrorMessage] =useState(null);
-
+        
+   const name =useRef(null);
    const email = useRef(null);
    const password =useRef(null);
 
 const handleButtonClick = () => {
-    //Validate the Form Data
-  
+  const message = checkValidData(email.current.value, password.current.value);
+  setErrorMessage(message);
+  if (message) return;
 
-    console.log(email.current.value);
-    console.log(password.current.value);
-
-    const message = checkValidData(email.current.value , password.current.value);
-    setErrorMessage(message);
-
-    // when the form get valid SIGN IN /SIGN UP
-
+  if (!isSignInForm) {
+    // 🔹 Sign Up flow
+    createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
+      .then((userCredential) => {
+        console.log("✅ Signed up:", userCredential.user);
+        setErrorMessage(null);
+      })
+      .catch((error) => {
+        if (error.code === "auth/email-already-in-use") {
+          // ✅ Email already exists — show friendly message OR sign in
+          setErrorMessage("Email already registered. Signing you in...");
+          
+          // Optionally try sign-in automatically:
+          signInWithEmailAndPassword(auth, email.current.value, password.current.value)
+            .then((userCredential) => {
+              console.log("✅ Signed in:", userCredential.user);
+              setErrorMessage(null);
+            })
+            .catch((signInError) => {
+              setErrorMessage("Email exists but wrong password. Please try logging in.");
+              console.error("Sign-in failed:", signInError.message);
+            });
+        } else {
+          setErrorMessage(error.message);
+        }
+      });
+  } else {
+    // 🔹 Sign In flow
+    signInWithEmailAndPassword(auth, email.current.value, password.current.value)
+      .then((userCredential) => {
+        console.log("✅ Signed in:", userCredential.user);
+        setErrorMessage(null);
+      })
+      .catch((error) => setErrorMessage(error.message));
+  }
 };
-    
+
 const toggleSignInForm =() => {
     setIsSignInForm(!isSignInForm);
 };
