@@ -4,18 +4,19 @@ import { checkValidData } from "../utils/Validate";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
-import { useNavigate } from "react-router-dom"; // ✅ Added import
-
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const email = useRef(null);
   const password = useRef(null);
+  const fullName = useRef(null); // ✅ added for displayName
 
   const handleButtonClick = () => {
     const message = checkValidData(
@@ -33,10 +34,23 @@ const Login = () => {
         password.current.value
       )
         .then((userCredential) => {
-          console.log("✅ Signed up:", userCredential.user);
-          setErrorMessage(null);
-          navigate("/browse"); // redirect after login
+          const user = userCredential.user; // ✅ define user here
 
+          // Update profile with name
+          updateProfile(user, {
+            displayName: fullName.current?.value || "",
+            photoURL: "https://example.com/jane-q-user/profile.jpg",
+          })
+            .then(() => {
+              console.log("✅ Profile updated");
+              navigate("/browse");
+            })
+            .catch((error) => {
+              setErrorMessage(error.message);
+            });
+
+          console.log("✅ Signed up:", user);
+          setErrorMessage(null);
         })
         .catch((error) => {
           if (error.code === "auth/email-already-in-use") {
@@ -56,7 +70,6 @@ const Login = () => {
           console.log("✅ Signed in:", userCredential.user);
           setErrorMessage(null);
           navigate("/browse");
-
         })
         .catch((error) => {
           if (error.code === "auth/invalid-credential") {
@@ -92,6 +105,7 @@ const Login = () => {
         {!isSignInForm && (
           <input
             type="text"
+            ref={fullName} // ✅ connected to useRef
             placeholder="Full Name"
             className="p-2 my-4 w-full bg-gray-700"
           />
