@@ -8,17 +8,21 @@ import {
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const email = useRef(null);
   const password = useRef(null);
-  const fullName = useRef(null); // ✅ added for displayName
+  const fullName = useRef(null);
 
   const handleButtonClick = () => {
+    // validate email + password
     const message = checkValidData(
       email.current.value,
       password.current.value
@@ -27,21 +31,31 @@ const Login = () => {
     if (message) return;
 
     if (!isSignInForm) {
-      // 🔹 Sign Up flow
+      // 🔹 Sign Up
       createUserWithEmailAndPassword(
         auth,
         email.current.value,
         password.current.value
       )
         .then((userCredential) => {
-          const user = userCredential.user; // ✅ define user here
+          const user = userCredential.user;
 
-          // Update profile with name
+          // update profile with displayName + photo
           updateProfile(user, {
             displayName: fullName.current?.value || "",
-            photoURL: "https://example.com/jane-q-user/profile.jpg",
+            photoURL: "https://avatars.githubusercontent.com/u/215795693?v=4",
           })
             .then(() => {
+              const { uid, email, displayName, photoURL } = user;
+              dispatch
+              (addUser
+                ({ 
+                  uid :uid,
+                  email :email,
+                  displayName:displayName, 
+                  photoURL : photoURL,
+                })
+              );
               console.log("✅ Profile updated");
               navigate("/browse");
             })
@@ -60,13 +74,15 @@ const Login = () => {
           }
         });
     } else {
-      // 🔹 Sign In flow
+      // 🔹 Sign In
       signInWithEmailAndPassword(
         auth,
         email.current.value,
         password.current.value
       )
         .then((userCredential) => {
+          const { uid, email, displayName, photoURL } = userCredential.user;
+          dispatch(addUser({ uid, email, displayName, photoURL }));
           console.log("✅ Signed in:", userCredential.user);
           setErrorMessage(null);
           navigate("/browse");
@@ -102,10 +118,11 @@ const Login = () => {
           {isSignInForm ? "Sign In" : "Sign Up"}
         </h1>
 
+        {/* Only show Full Name for Sign Up */}
         {!isSignInForm && (
           <input
             type="text"
-            ref={fullName} // ✅ connected to useRef
+            ref={fullName}
             placeholder="Full Name"
             className="p-2 my-4 w-full bg-gray-700"
           />
@@ -124,7 +141,7 @@ const Login = () => {
           className="p-2 my-4 w-full bg-gray-700"
         />
 
-        {/* Error message */}
+        {/* Error Message */}
         <p className="text-red-500 font-bold text-lg py-2">{errorMessage}</p>
 
         <button
