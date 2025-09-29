@@ -17,7 +17,8 @@ Sign out
 update profile
 Bugfix : sign up user displayname and profile picture update
 bugfix: if the user is not logged inredirect/browse to login page and vice versa
-
+unsubscribed tothe onauthstatechanged callback
+add hardcoded values to the constants file
 
 # features
 
