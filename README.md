@@ -13,6 +13,10 @@ deploying our app in production
 create Sign up user account
 Implement Sig In user API
 Created redux store with userSlice
+Sign out
+update profile
+Bugfix : sign up user displayname and profile picture update
+bugfix: if the user is not logged inredirect/browse to login page and vice versa
 
 
 # features
