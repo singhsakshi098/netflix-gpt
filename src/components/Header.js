@@ -42,7 +42,7 @@ const Header = () => {
     // unsubscribe when component unmounts
     return () => unsubscribe();
 
-  }, []);
+  }, [dispatch, navigate]);
 
 
   return (
