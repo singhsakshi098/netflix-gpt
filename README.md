@@ -28,6 +28,14 @@ fetch data for trailer video
 Update store with Trailer Video Data
 Embedded The Youtube video and make it autoplay and mute
 Tailwind classes to make main container Look awesome
+Build Movie List
+Build Movie Card
+TMDB Image CDN URL 
+MADE the Browse Page amazing with Tailwind CSS
+usePopularMovies Custom Hooks
+usePopularMovies Custom Hooks
+useTopRatedMovies Custom Hooks
+useUpcomingMovies Custom Hooks
 
 # features
 
