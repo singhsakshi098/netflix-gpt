@@ -4,3 +4,12 @@ export const LOGO =
 export const USER_AVATAR ="https://pbs.twimg.com/media/DN1OYIFX0AAbOMe.jpg"
 
 export const BACKGROUND_IMAGE ="https://assets.nflxext.com/ffe/siteui/vlv3/c95abc7a-8124-4630-bb7a-3b160bdc6de3/web/IN-en-20250915-TRIFECTA-perspective_d3d87aa7-58ed-4c6b-98dc-231ed05ba675_small.jpg"
+
+export const API_OPTIONS = {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization: 
+    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlZGNlNWE1MDA1NWYzNTM4MzI4MjA2MWRjMzYwYzJlNCIsIm5iZiI6MTc1OTE0NjI2Mi4yNzAwMDAyLCJzdWIiOiI2OGRhNzExNjkwZWNkMDA5YWFiOWFhODgiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.WdTfEVZkHNb-mzuoA-zZkKpMm8jG2ehVSeZcXuMGx1c" 
+  },
+};
