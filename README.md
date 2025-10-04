@@ -36,9 +36,14 @@ usePopularMovies Custom Hooks
 usePopularMovies Custom Hooks
 useTopRatedMovies Custom Hooks
 useUpcomingMovies Custom Hooks
+Gpt search feature in headeer
+Gpt search page
+Gpt Search Bar
+multi-language Feature in our App 
+Integrate Gpt API
+
 
 # features
-
 -login/signup 
      -sign in / sign up form 
      -redirect to browse page
