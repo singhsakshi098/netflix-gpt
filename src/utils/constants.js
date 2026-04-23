@@ -19,4 +19,10 @@ export const IMG_CDN_URL = "https://image.tmdb.org/t/p/w500"
 export const SUPPORTED_LANGUAGES = 
 [{identifier: "en", name:"English" },
 {identifier: "hindi", name:"hindi" },
-{identifier: "spanish", name:"Spanish" }]
+{identifier: "spanish", name:"Spanish" }];
+
+
+export  const API_KEYS = "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"
+
+
+
