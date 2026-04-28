@@ -15,6 +15,7 @@ import { useEffect } from "react";
     //console.log(json.results);
     dispatch(addUpcomingMovies(json.results));
   };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     getUpcomingMovies();
   } , [])

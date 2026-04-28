@@ -15,9 +15,10 @@ import { useEffect } from "react";
     //console.log(json.results);
     dispatch(addNowPlayingMovies(json.results));
   };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     getNowPlayingMovies();
-  } , [])
+  }, []);
 };
 
 

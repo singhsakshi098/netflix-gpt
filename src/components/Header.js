@@ -1,5 +1,5 @@
 import {  onAuthStateChanged, signOut } from "firebase/auth"; 
-import { use, useEffect } from "react" ;
+import { useEffect } from "react" ;
 import { useDispatch ,useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";   // ✅ important!
 import { auth } from "../utils/firebase";
@@ -28,6 +28,7 @@ const Header = () => {
 
   };
 
+// eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     const unsubscribe =  onAuthStateChanged(auth, (user) => {
       if (user) {
