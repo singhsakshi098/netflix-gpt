@@ -22,6 +22,4 @@ export const SUPPORTED_LANGUAGES =
 {identifier: "spanish", name:"Spanish" }];
 
 
-export const API_KEYS = import.meta.env.VITE_OPENAI_API_KEY;
-
-
+export const API_KEYS = process.env.REACT_APP_OPENAI_API_KEY;
