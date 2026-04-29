@@ -1,23 +1,21 @@
-import { useSelector } from "react-redux";
-import VideoBackground  from "./VideoBackground";
+import VideoBackground from "./VideoBackground";
 import VideoTitle from "./VideoTitle";
-
-
+import { useSelector } from "react-redux";
 
 const MainContainer = () => {
-    const movies = useSelector(store=> store.movies?.nowPlayingMovies);
-    if(movies=== null) return;
+  const movies = useSelector((store) => store.movies?.nowPlayingMovies);
 
-    const mainMovie = movies[0];
-    //console.log(mainMovie);
+  if (!movies) return null;
 
-    const { original_title , overview } = mainMovie;
+  const mainMovie = movies[0];
+  const { id, title, overview } = mainMovie;
 
-    return <div> 
-        <VideoTitle title={original_title} overview = {overview} />
-        <VideoBackground movieId={1267319} />
-        
-         </div>;
-}; 
+  return (
+    <div className="relative h-screen">
+  <VideoBackground movieId={id} />
+  <VideoTitle title={title} overview={overview} />
+</div>
+  );
+};
 
 export default MainContainer;

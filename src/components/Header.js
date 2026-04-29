@@ -64,13 +64,16 @@ const Header = () => {
 
 
   return (
-    <div className="absolute w-screen px-8 py-2 bg-gradient-to-b from-black z-10 flex justify-between" >
+      // Already absolute — just make sure bg is gradient not solid black
+<div className="fixed top-0 left-0 w-full px-4 sm:px-8 md:px-16 py-3 
+                bg-gradient-to-b from-black/80 to-transparent z-50 
+                flex justify-between items-center">
       <img 
-      className="w-44  "
+      className="w-28 sm:w-36 md:w-44" 
       src ={LOGO}
       alt ="logo"/>
       { user && 
-      (<div className= "flex p-2">
+      (<div className="flex items-center gap-2 sm:gap-4 flex-wrap justify-end">
         {showGptSearch && (
           <select 
           className="p-2 m-2 bg-gray-900 text-white" onChange= {handleLanguageChange} > 
@@ -82,7 +85,7 @@ const Header = () => {
           
         </select>
         )}
-        <button className=" py-2 px-4 mx-4 my-2 bg-purple-800 text-white rounded-lg"
+        <button className=" py-1 px-2 sm:py-2 sm:px-4 mx-1 sm:mx-4 my-2 bg-purple-800 text-white rounded-lg text-sm sm:text-base"
         onClick={handleGptSearchClick}
          > 
          {showGptSearch? "HomePage" : "GptSearch"}
@@ -92,7 +95,12 @@ const Header = () => {
         alt ="usericon"
         src = {user.photoURL}  />
 
-        <button onClick={handleSignOut} className =" font-bold text-white">(Sign Out)</button>
+       <button 
+  onClick={handleSignOut} 
+  className="font-bold text-white text-sm sm:text-base whitespace-nowrap"
+>
+  Sign Out
+</button>
       </div>)}
     </div>
   )

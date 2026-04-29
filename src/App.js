@@ -7,7 +7,7 @@ const App = () => {
   window.store = appStore;
 
   return (
-    <div>
+    <div className="overflow-x-hidden">
       <Provider store={appStore}>
         <Body />
       </Provider>

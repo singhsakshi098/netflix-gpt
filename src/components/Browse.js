@@ -19,19 +19,18 @@ const Browse = () => {
   
 
   return (
-    <div>
-      <Header />    
+    <div className="w-full min-h-screen bg-black overflow-x-hidden">
+      <Header />
+      <div>
         {showGptSearch ? (
-          <GptSearch /> ) : (
-            <>
-          <MainContainer />
-      <SecondaryContainer />
-      </>
+          <GptSearch />
+        ) : (
+          <>
+            <MainContainer />
+            <SecondaryContainer />
+          </>
         )}
-
-      
-     
-     {/*/ 
+        {/*/ 
         Main Container
          -Video Background
          -videoTitle
@@ -40,9 +39,10 @@ const Browse = () => {
          -Cards * n
      
      */}
-
+      </div>
     </div>
   )
 }
+     
 
 export default Browse;
