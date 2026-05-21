@@ -1,56 +1,74 @@
-import openai from "../utils/openai";
-import { useRef } from "react";
-import { useSelector } from "react-redux";
-import  lang from "../utils/languageConstants";
-
-
+import { useRef, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { smartMovieSearch } from "../utils/gemini";
+import lang from "../utils/languageConstants";
+import { addGptMoviesResult } from "../utils/gptSlice";
 
 const GptSearchBar = () => {
-  const langKey = useSelector((store)=> store.config.lang);
+  const dispatch = useDispatch();
+  const langKey = useSelector((store) => store.config.lang);
   const searchText = useRef(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleGptSearchClick = async () => {
-    console.log(searchText.current.value);
-    //MAKE an api call to gpt api to get movie results
+    if (!searchText.current.value.trim()) return;
 
-    const gptQuery= "Act as a Movie Reccomendation System and suggest some movie for the query : " 
-    + searchText.current.value +
-     " only give me names of 5 movies , comma separated. like the example result given ahead Example Result: Gadar , Sholley , Don , Jab We Met , Golmaal";
+    setLoading(true);
+    setError(null);
 
-     const gptResults = await openai.chat.completions.create({
+    try {
+      const { movieNames, movieResults } = await smartMovieSearch(
+        searchText.current.value
+      );
 
-  model: 'gpt-3.5-turbo',
-  messages: [
-    
-    { role: 'user', content: gptQuery },
-  ],
-});
+      if (!movieNames.length) {
+        setError("No movies found. Try a different search.");
+        setLoading(false);
+        return;
+      }
 
-console.log(gptResults.choices[0].message.content);
+      dispatch(addGptMoviesResult({ movieNames, movieResults }));
+    } catch (err) {
+      console.error("Search error:", err);
+      setError("Something went wrong. Please try again.");
+    }
 
-};
+    setLoading(false);
+  };
 
   return (
-    <div className="pt-[10%] flex justify-center">
-        <form 
-          className=" w-1/2 bg-black grid grid-cols-12" 
-          onSubmit= {(e) => e.preventDefault()}
-          >
-            <input 
-            ref = {searchText} 
-            className="p-4 m-4 col-span-9 " 
-            placeholder={lang[langKey].gptSearchPlaceholder}
-
-            />
-
-            <button className =" col-span-3 m-4 py-2 px-4 bg-red-700 text-white rounded-lg"
-              onClick = {handleGptSearchClick}>
-              {lang[langKey].search}</button>
-
-        </form>
-      
+    <div className="pt-[25%] sm:pt-[8%] flex flex-col items-center px-3 sm:px-4">
+      <form
+        className="w-full sm:w-10/12 md:w-8/12 lg:w-6/12 xl:w-5/12
+          flex flex-col sm:flex-row rounded-lg overflow-hidden 
+          shadow-lg shadow-black/50"
+        onSubmit={(e) => e.preventDefault()}
+      >
+        <input
+          ref={searchText}
+          className="p-3 sm:p-4 flex-1 text-black text-sm sm:text-base
+            outline-none placeholder:text-gray-500"
+          placeholder={lang[langKey].gptSearchPlaceholder}
+        />
+        <button
+          className="px-4 sm:px-8 py-3 sm:py-4 bg-red-700 text-white font-semibold 
+            hover:bg-red-600 text-sm sm:text-base whitespace-nowrap
+            disabled:opacity-50 disabled:cursor-not-allowed 
+            transition-colors active:scale-95"
+          onClick={handleGptSearchClick}
+          disabled={loading}
+        >
+          {loading ? "Searching..." : lang[langKey].search}
+        </button>
+      </form>
+      {error && (
+        <p className="text-red-400 mt-3 text-xs sm:text-sm font-medium 
+          bg-black/70 px-4 py-2 rounded max-w-[90%] text-center">
+          {error}
+        </p>
+      )}
     </div>
-  )
-}
-
-export default GptSearchBar
+  );
+};
+export default GptSearchBar;

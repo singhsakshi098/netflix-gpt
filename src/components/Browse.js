@@ -8,41 +8,39 @@ import useUpcomingMovies from "../hooks/useUpcomingMovies";
 import GptSearch from "./GptSearch";
 import { useSelector } from "react-redux";
 
-
 const Browse = () => {
-  const showGptSearch = useSelector(store => store.gpt.showGptSearch)
-  
+  const showGptSearch = useSelector(store => store.gpt.showGptSearch);
+
   useNowPlayingMovies();
   usePopularMovies();
   useTopRatedMovies();
   useUpcomingMovies();
-  
 
   return (
-    <div className="w-full min-h-screen bg-black overflow-x-hidden">
-      <Header />
-      <div>
-        {showGptSearch ? (
+    <div className="w-full min-h-screen overflow-x-hidden" style={{ backgroundColor: "#141414" }}>
+      {showGptSearch ? (
+        <>
+          <Header />
           <GptSearch />
-        ) : (
-          <>
-            <MainContainer />
-            <SecondaryContainer />
-          </>
-        )}
-        {/*/ 
-        Main Container
-         -Video Background
-         -videoTitle
-        SecondaryContainer
-         -MovieList * n
-         -Cards * n
-     
-     */}
-      </div>
+        </>
+      ) : (
+        <div className="relative">
+          {/* Header is INSIDE relative div so it overlays the video */}
+          <Header />
+          {/*
+          Main Container
+           -Video Background
+           -videoTitle
+          SecondaryContainer
+           -MovieList * n
+           -Cards * n
+          */}
+          <MainContainer />
+          <SecondaryContainer />
+        </div>
+      )}
     </div>
-  )
-}
-     
+  );
+};
 
 export default Browse;

@@ -6,17 +6,18 @@ const SecondaryContainer = () => {
   if (!movies?.nowPlayingMovies) return null;
 
   return (
-    <div className="relative z-20 -mt-24 md:-mt-28 lg:-mt-32">
-      {/* 🎬 Smooth overlap WITHOUT strip */}
-      <div className="px-4 sm:px-8 md:px-12 pt-6 pb-20">
-
-        <MovieList title="Now Playing" movies={movies.nowPlayingMovies} />
-        <MovieList title="Popular" movies={movies.PopularMovies} />
-        <MovieList title="Top Rated" movies={movies.TopRatedMovies} />
+    <div className="relative z-30 -mt-[150px]">
+      {/* Transparent top so video shows through, fades to solid quickly */}
+      <div
+        className="px-4 sm:px-8 md:px-12 lg:px-16 pt-4 pb-20"
+        style={{
+          background: "linear-gradient(to bottom, transparent 0%, #141414 5%)",
+        }}
+      >
+        <MovieList title="Now Playing"     movies={movies.nowPlayingMovies} />
+        <MovieList title="Popular"         movies={movies.PopularMovies} />
+        <MovieList title="Top Rated"       movies={movies.TopRatedMovies} />
         <MovieList title="Upcoming Movies" movies={movies.UpcomingMovies} />
-        <MovieList title="Upcoming Movies" movies={movies.UpcomingMovies} />
-        <MovieList title="Top Rated" movies={movies.TopRatedMovies} />
-
       </div>
     </div>
   );
