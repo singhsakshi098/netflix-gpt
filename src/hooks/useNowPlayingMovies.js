@@ -12,10 +12,10 @@ import { useEffect } from "react";
 
     );
     const json = await data.json();
-    //console.log(json.results);
+    
     dispatch(addNowPlayingMovies(json.results));
   };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  
   useEffect(() => {
     getNowPlayingMovies();
   }, []);
